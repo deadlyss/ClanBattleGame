@@ -55,20 +55,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Bridge\ClanInfoPrinter.cs" />
+    <Compile Include="Bridge\TextClanFormatter.cs" />
+    <Compile Include="Core\DeepCopyExtensions.cs" />
+    <Compile Include="Core\UnitIsLeaderConverter.cs" />
+    <Compile Include="Interface\IClanFormatter.cs" />
+    <Compile Include="Memento\BattleHistory.cs" />
+    <Compile Include="Memento\BattleMemento.cs" />
+    <Compile Include="Model\Race.cs" />
+    <Compile Include="Service\BattleState.cs" />
+    <Compile Include="Service\ClanBuilder.cs" />
     <Compile Include="Core\ObservableObject.cs" />
     <Compile Include="Core\RelayCommand.cs" />
     <Compile Include="Factories\DwarfFactory.cs" />
-    <Compile Include="Model\Squad.cs" />
-    <Compile Include="Model\Units\DwarfBerserk.cs" />
-    <Compile Include="Model\Units\DwarfMiner.cs" />
-    <Compile Include="Model\Units\DwarfWarrior.cs" />
-    <Compile Include="Model\Units\Warrior.cs" />
-    <Compile Include="ViewModel\ArmyBuilderVM.cs" />
-    <Compile Include="ViewModel\GameVM.cs" />
-    <Compile Include="View\ArmyBuilderPage.xaml.cs">
-      <DependentUpon>ArmyBuilderPage.xaml</DependentUpon>
-    </Compile>
-    <Page Include="MainWindow.xaml">
+    <Compile Include="Model\Etc\Squad.cs" />
+    <Compile Include="Model\Units\HeavyUnit.cs" />
+    <Compile Include="Model\Units\Leader.cs" />
+    <Compile Include="Model\Units\LightUnit.cs" />
+    <Compile Include="ViewModel\BattleVM.cs" />
+    <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -76,25 +81,18 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Core\BattleEngine.cs" />
+    <Compile Include="Service\BattleEngine.cs" />
     <Compile Include="Factories\ElfFactory.cs" />
     <Compile Include="Interface\IClanFactory.cs" />
-    <Compile Include="Interface\IWarrior.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Interface\IUnit.cs" />
+    <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\ArmyBuilderPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Units\Archer.cs" />
-    <Compile Include="Model\Clan.cs" />
-    <Compile Include="Model\Units\ClanLeader.cs" />
-    <Compile Include="Model\Units\Knight.cs" />
-    <Compile Include="Model\Units\Mage.cs" />
+    <Compile Include="Model\Units\ArcherUnit.cs" />
+    <Compile Include="Model\Etc\Clan.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

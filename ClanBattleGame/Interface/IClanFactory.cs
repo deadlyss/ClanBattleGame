@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ClanBattleGame.Model;
 
 namespace ClanBattleGame.Interface
 {
     public interface IClanFactory
     {
-        IWarrior CreateLightUnit();
-        IWarrior CreateHeavyUnit();
-        IWarrior CreateEliteUnit();
+        Race Race { get; }
+
+        IUnit CreateLightUnit();
+        IUnit CreateHeavyUnit();
+        IUnit CreateArcherUnit();
     }
 }

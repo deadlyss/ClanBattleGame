@@ -1,12 +1,14 @@
 ﻿namespace ClanBattleGame.Interface
 {
-    public interface IWarrior
+    public interface IUnit
     {
         string Name { get; }
+        string Type { get; }
         int Health { get; set; }
         int Attack { get; }
         string Weapon { get; }
-        string Movement { get; }
-        IWarrior Clone(); // Prototype
+        int BonusAttack { get; set; }
+        IUnit Clone(); // Prototype
+        IUnit CloneWithName(string newName);
     }
 }
