@@ -25,7 +25,7 @@ namespace ClanBattleGame.Core
             // Атакує юніт 1
             unit2.Health -= unit1.Attack;
 
-            return $"{unit1.Name} вдарив {unit2.Name} на {unit1.Attack}";
+            return $"{unit1.Name} ({unit1.Weapon}, рух: {unit1.Movement}) вдарив {unit2.Name} на {unit1.Attack}";
         }
     }
 }

@@ -58,9 +58,11 @@
     <Compile Include="Core\ObservableObject.cs" />
     <Compile Include="Core\RelayCommand.cs" />
     <Compile Include="Factories\DwarfFactory.cs" />
+    <Compile Include="Model\Squad.cs" />
     <Compile Include="Model\Units\DwarfBerserk.cs" />
     <Compile Include="Model\Units\DwarfMiner.cs" />
     <Compile Include="Model\Units\DwarfWarrior.cs" />
+    <Compile Include="Model\Units\Warrior.cs" />
     <Compile Include="ViewModel\ArmyBuilderVM.cs" />
     <Compile Include="ViewModel\GameVM.cs" />
     <Compile Include="View\ArmyBuilderPage.xaml.cs">

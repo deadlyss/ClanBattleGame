@@ -7,6 +7,8 @@ namespace ClanBattleGame.Model.Units
         public string Name => "Archer";
         public int Health { get; set; } = 80;
         public int Attack => 20;
+        public string Weapon => "Bow";
+        public string Movement => "Lightfoot";
 
         public IWarrior Clone()
             => new Archer { Health = this.Health };

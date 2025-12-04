@@ -1,4 +1,5 @@
 ﻿using ClanBattleGame.Interface;
+using ClanBattleGame.Model.Units;
 
 namespace ClanBattleGame.Factories
 {

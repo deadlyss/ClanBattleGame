@@ -8,6 +8,8 @@ namespace ClanBattleGame.Model.Units
 
         public int Health { get; set; } = 140;
         public int Attack => 25;
+        public string Weapon => "Battle Axe";
+        public string Movement => "Shield March";
 
         public IWarrior Clone()
         {

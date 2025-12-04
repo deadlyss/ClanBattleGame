@@ -21,7 +21,7 @@ namespace ClanBattleGame.ViewModel
         public ObservableCollection<IWarrior> Army2 { get; set; }
 
         // Доступні типи юнітів
-        public List<string> UnitTypes { get; } = new()
+        public List<string> UnitTypes { get; } = new List<string>
         {
             "Light",
             "Heavy",
