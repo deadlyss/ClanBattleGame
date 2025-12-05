@@ -9,9 +9,7 @@ namespace ClanBattleGame.Service
 {
     public class BattleEngine
     {
-        // -------------------------------
         //         ІНІЦІАЛІЗАЦІЯ БОЮ
-        // -------------------------------
         public BattleState Initialize(Clan clanA, Clan clanB)
         {
             var state = new BattleState
@@ -31,10 +29,7 @@ namespace ClanBattleGame.Service
             return state;
         }
 
-
-        // ----------------------------------------------------------
         //     ПЕРЕВІРКА СМЕРТІ ЛІДЕРА (ЗАВЕРШУЄ БІЙ МИТТЄВО)
-        // ----------------------------------------------------------
         private bool CheckLeaderDeath(Clan clan)
         {
             if (clan == null)
@@ -46,10 +41,7 @@ namespace ClanBattleGame.Service
             return clan.Leader.Health <= 0;
         }
 
-
-        // -------------------------------
         //          РАУНД БОЮ
-        // -------------------------------
         public string Step(BattleState state)
         {
             if (state.IsFinished)
@@ -119,10 +111,7 @@ namespace ClanBattleGame.Service
             return log.ToString();
         }
 
-
-        // ----------------------------------------
         //      ПОВНИЙ БІЙ ДО СМЕРТІ ЗАГОНУ
-        // ----------------------------------------
         public string FightSquadFully(BattleState state)
         {
             if (state.IsFinished)
@@ -196,10 +185,7 @@ namespace ClanBattleGame.Service
             return log.ToString();
         }
 
-
-        // ----------------------------------------
         //         ОДИН РАУНД БІЙЦІВ
-        // ----------------------------------------
         private void FightRound(Squad a, Squad b, StringBuilder log)
         {
             var aliveA = a.Units.Where(u => u.Health > 0).ToList();

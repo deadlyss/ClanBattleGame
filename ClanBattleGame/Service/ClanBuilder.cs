@@ -1,10 +1,8 @@
 ﻿using ClanBattleGame.Interface;
 using ClanBattleGame.Model;
 using ClanBattleGame.Model.Etc;
-using ClanBattleGame.Model.Units;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 
 namespace ClanBattleGame.Service
 {
