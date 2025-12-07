@@ -8,7 +8,7 @@ namespace ClanBattleGame.View
         public MainWindow()
         {
             InitializeComponent();
-
+            MainFrame.Content = new BattlePage();
         }
     }
 }

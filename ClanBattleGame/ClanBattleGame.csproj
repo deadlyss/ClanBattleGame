@@ -73,13 +73,21 @@
     <Compile Include="Model\Units\Leader.cs" />
     <Compile Include="Model\Units\LightUnit.cs" />
     <Compile Include="ViewModel\BattleVM.cs" />
+    <Compile Include="ViewModel\HexFieldVM.cs" />
+    <Compile Include="View\HexCell.xaml.cs">
+      <DependentUpon>HexCell.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\NewGamePage.xaml.cs">
       <DependentUpon>NewGamePage.xaml</DependentUpon>
     </Compile>
-    <Page Include="View\CreateTool.xaml">
+    <Page Include="View\BattlePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\HexCell.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -103,8 +111,8 @@
     <Compile Include="Factories\ElfFactory.cs" />
     <Compile Include="Interface\IClanFactory.cs" />
     <Compile Include="Interface\IUnit.cs" />
-    <Compile Include="View\CreateTool.xaml.cs">
-      <DependentUpon>CreateTool.xaml</DependentUpon>
+    <Compile Include="View\BattlePage.xaml.cs">
+      <DependentUpon>BattlePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainMenu.xaml.cs">
       <DependentUpon>MainMenu.xaml</DependentUpon>

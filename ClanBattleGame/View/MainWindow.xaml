@@ -9,7 +9,7 @@
         xmlns:iface="clr-namespace:ClanBattleGame.Interface"
         xmlns:etc="clr-namespace:ClanBattleGame.Model.Etc"
         mc:Ignorable="d"
-        Title="MainWindow" Height="720" Width="1080">
+        Title="MainWindow" Height="560" Width="960">
 
     <Window.Resources>
         <conv:UnitIsLeaderConverter x:Key="UnitIsLeaderConverter"/>
@@ -241,6 +241,9 @@
 
             </ScrollViewer>
         </GroupBox>
+
+        <Frame Grid.ColumnSpan="3" x:Name="MainFrame"
+               NavigationUIVisibility="Hidden"/>
 
     </Grid>
 </Window>

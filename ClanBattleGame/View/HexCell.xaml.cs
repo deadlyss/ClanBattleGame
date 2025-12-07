@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace ClanBattleGame.View
 {
     /// <summary>
-    /// Логика взаимодействия для CreateTool.xaml
+    /// Логика взаимодействия для HexCell.xaml
     /// </summary>
-    public partial class CreateTool : Page
+    public partial class HexCell : UserControl
     {
-        public CreateTool()
+        public HexCell()
         {
             InitializeComponent();
         }

@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="ClanBattleGame.View.HexCell"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ClanBattleGame.View"
+             mc:Ignorable="d" 
+                     Width="70" Height="60">
+    <Grid>
+        <Polygon Points="35,0 70,17 70,43 35,60 0,43 0,17"
+             Fill="#cccccc"
+             Stroke="Black"
+             StrokeThickness="1"/>
+    </Grid>
+</UserControl>
