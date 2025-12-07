@@ -1,0 +1,31 @@
+﻿<Page x:Class="ClanBattleGame.View.HomePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ClanBattleGame.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="HomePage" Background="White">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <StackPanel
+                Orientation="Horizontal" VerticalAlignment="Center"
+                HorizontalAlignment="Center" Margin="20 0">
+                <TextBlock Text="Clan name" Margin="0 0 150 0"/>
+                <TextBlock Text="Money:" Margin="0 0 150 0"/>
+                <TextBlock Text="Fights:"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>

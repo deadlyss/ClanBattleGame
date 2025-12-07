@@ -1,6 +1,7 @@
 ﻿using ClanBattleGame.Interface;
 using ClanBattleGame.Model;
 using ClanBattleGame.Model.Etc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,183 +10,113 @@ namespace ClanBattleGame.Service
 {
     public class BattleEngine
     {
-        //         ІНІЦІАЛІЗАЦІЯ БОЮ
+        private Random rnd = new Random();
+
         public BattleState Initialize(Clan clanA, Clan clanB)
         {
-            var state = new BattleState
+            return new BattleState
             {
                 ClanA = clanA,
                 ClanB = clanB,
-
-                QueueA = new Queue<Squad>(clanA.Squads),
-                QueueB = new Queue<Squad>(clanB.Squads),
-
                 IsFinished = false
             };
-
-            state.CurrentA = state.QueueA.Dequeue();
-            state.CurrentB = state.QueueB.Dequeue();
-
-            return state;
         }
 
-        //     ПЕРЕВІРКА СМЕРТІ ЛІДЕРА (ЗАВЕРШУЄ БІЙ МИТТЄВО)
         private bool CheckLeaderDeath(Clan clan)
         {
-            if (clan == null)
-                return false;
-
-            if (clan.Leader == null)
-                return false;
-
-            return clan.Leader.Health <= 0;
+            return clan?.Leader?.Health <= 0;
         }
 
-        //          РАУНД БОЮ
-        public string Step(BattleState state)
+        private List<Squad> GetAliveSquads(Clan clan)
+        {
+            return clan.Squads
+                       .Where(s => s.Units.Any(u => u.Health > 0))
+                       .ToList();
+        }
+
+        public string Step(BattleState state, Squad playerSelectedSquad)
         {
             if (state.IsFinished)
                 return "Бій завершено.";
 
             StringBuilder log = new StringBuilder();
 
-            log.AppendLine($"=== РАУНД ===");
-            log.AppendLine($"{state.CurrentA.Name} vs {state.CurrentB.Name}");
+            // Перевірка, чи є живі загони у обох сторін
+            var aliveA = GetAliveSquads(state.ClanA);
+            var aliveB = GetAliveSquads(state.ClanB);
 
+            if (!aliveA.Any())
+            {
+                state.IsFinished = true;
+                return "У твоєму клані не залишилося живих загонів! Поразка!";
+            }
 
-            // Один раунд
-            FightRound(state.CurrentA, state.CurrentB, log);
+            if (!aliveB.Any())
+            {
+                state.IsFinished = true;
+                return "У противника не залишилося живих загонів! Перемога!";
+            }
 
+            bool enemyFirst = rnd.Next(2) == 0;
 
-            // --- Перевірка смерті лідера ---
+            Squad attacker, defender;
+
+            if (enemyFirst)
+            {
+                // Противник атакує
+                attacker = aliveB[rnd.Next(aliveB.Count)];
+
+                // Гравець обирає свій загін
+                if (playerSelectedSquad == null || !aliveA.Contains(playerSelectedSquad))
+                    defender = aliveA.First(); // запасний варіант
+                else
+                    defender = playerSelectedSquad;
+
+                log.AppendLine($"Противник ходить першим! Атакує загін {attacker.Name}");
+            }
+            else
+            {
+                // Гравець атакує
+                if (playerSelectedSquad == null || !aliveA.Contains(playerSelectedSquad))
+                    attacker = aliveA.First();
+                else
+                    attacker = playerSelectedSquad;
+
+                defender = aliveB[rnd.Next(aliveB.Count)];
+
+                log.AppendLine($"Ти ходиш першим! Атакує загін {attacker.Name}");
+            }
+
+            FightRound(attacker, defender, log);
+
+            // Видаляємо загін, якщо мертвий
+            if (!attacker.Units.Any(u => u.Health > 0))
+            {
+                log.AppendLine($"Загін {attacker.Name} вибув із гри!");
+            }
+
+            if (!defender.Units.Any(u => u.Health > 0))
+            {
+                log.AppendLine($"Загін {defender.Name} вибув із гри!");
+            }
+
+            // Перевірка смерті лідерів
             if (CheckLeaderDeath(state.ClanA))
             {
                 state.IsFinished = true;
-                log.AppendLine("‼ Лідер Клану A загинув!");
-                log.AppendLine("Переможець: Clan B");
-                return log.ToString();
+                log.AppendLine("‼ Лідер твого клану загинув! Поразка!");
             }
 
             if (CheckLeaderDeath(state.ClanB))
             {
                 state.IsFinished = true;
-                log.AppendLine("‼ Лідер Клану B загинув!");
-                log.AppendLine("Переможець: Clan A");
-                return log.ToString();
-            }
-
-
-            // --- Перевірка вибуття загонів ---
-            if (!state.CurrentA.Units.Any(u => u.Health > 0))
-            {
-                log.AppendLine($"Загін {state.CurrentA.Name} програв!");
-
-                if (state.QueueA.Count == 0)
-                {
-                    state.IsFinished = true;
-                    log.AppendLine("Переможець: Clan B");
-                }
-                else
-                {
-                    state.CurrentA = state.QueueA.Dequeue();
-                    log.AppendLine($"Новий загін A: {state.CurrentA.Name}");
-                }
-            }
-
-            if (!state.CurrentB.Units.Any(u => u.Health > 0))
-            {
-                log.AppendLine($"Загін {state.CurrentB.Name} програв!");
-
-                if (state.QueueB.Count == 0)
-                {
-                    state.IsFinished = true;
-                    log.AppendLine("Переможець: Clan A");
-                }
-                else
-                {
-                    state.CurrentB = state.QueueB.Dequeue();
-                    log.AppendLine($"Новий загін B: {state.CurrentB.Name}");
-                }
+                log.AppendLine("‼ Лідер противника загинув! Перемога!");
             }
 
             return log.ToString();
         }
 
-        //      ПОВНИЙ БІЙ ДО СМЕРТІ ЗАГОНУ
-        public string FightSquadFully(BattleState state)
-        {
-            if (state.IsFinished)
-                return "Бій завершено.";
 
-            var A = state.CurrentA;
-            var B = state.CurrentB;
-
-            StringBuilder log = new StringBuilder();
-            log.AppendLine($"=== ПОВНИЙ БІЙ {A.Name} vs {B.Name} ===");
-
-
-            while (A.Units.Any(u => u.Health > 0) &&
-                   B.Units.Any(u => u.Health > 0))
-            {
-                FightRound(A, B, log);
-                log.AppendLine("— Кінець раунду —");
-
-
-                // --- Перевірка смерті лідера ---
-                if (CheckLeaderDeath(state.ClanA))
-                {
-                    state.IsFinished = true;
-                    log.AppendLine("‼ Лідер Клану A загинув!");
-                    log.AppendLine("Переможець: Clan B");
-                    return log.ToString();
-                }
-
-                if (CheckLeaderDeath(state.ClanB))
-                {
-                    state.IsFinished = true;
-                    log.AppendLine("‼ Лідер Клану B загинув!");
-                    log.AppendLine("Переможець: Clan A");
-                    return log.ToString();
-                }
-            }
-
-
-            // --- Хтось програв ---
-            if (!A.Units.Any(u => u.Health > 0))
-            {
-                log.AppendLine($"Загін {A.Name} програв!");
-
-                if (state.QueueA.Count == 0)
-                {
-                    state.IsFinished = true;
-                    log.AppendLine("Переможець клану: Clan B");
-                }
-                else
-                {
-                    state.CurrentA = state.QueueA.Dequeue();
-                    log.AppendLine($"Новий загін A: {state.CurrentA.Name}");
-                }
-
-                return log.ToString();
-            }
-
-            log.AppendLine($"Загін {B.Name} програв!");
-
-            if (state.QueueB.Count == 0)
-            {
-                state.IsFinished = true;
-                log.AppendLine("Переможець клану: Clan A");
-            }
-            else
-            {
-                state.CurrentB = state.QueueB.Dequeue();
-                log.AppendLine($"Новий загін B: {state.CurrentB.Name}");
-            }
-
-            return log.ToString();
-        }
-
-        //         ОДИН РАУНД БІЙЦІВ
         private void FightRound(Squad a, Squad b, StringBuilder log)
         {
             var aliveA = a.Units.Where(u => u.Health > 0).ToList();
@@ -194,7 +125,7 @@ namespace ClanBattleGame.Service
             if (aliveA.Count == 0 || aliveB.Count == 0)
                 return;
 
-            int max = aliveA.Count > aliveB.Count ? aliveA.Count : aliveB.Count;
+            int max = Math.Max(aliveA.Count, aliveB.Count);
 
             for (int i = 0; i < max; i++)
             {
@@ -204,9 +135,8 @@ namespace ClanBattleGame.Service
                 if (aliveA.Count == 0 || aliveB.Count == 0)
                     return;
 
-                IUnit A = aliveA[i % aliveA.Count];
-                IUnit B = aliveB[i % aliveB.Count];
-
+                var A = aliveA[i % aliveA.Count];
+                var B = aliveB[i % aliveB.Count];
 
                 // A атакує B
                 B.Health -= A.Attack;
@@ -219,7 +149,6 @@ namespace ClanBattleGame.Service
                     log.AppendLine($"{B.Name} загинув!");
                     continue;
                 }
-
 
                 // B контратака
                 A.Health -= B.Attack;

@@ -5,7 +5,7 @@ namespace ClanBattleGame.Interface
 {
     public interface IClanFormatter
     {
-        string FormatClan(Clan clan);
+        string FormatClan(Clan clan); //Bridge
         string FormatSquad(Squad squad);
         string FormatUnit(IUnit unit);
     }
