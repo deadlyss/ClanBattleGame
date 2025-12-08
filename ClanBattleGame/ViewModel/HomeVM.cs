@@ -176,7 +176,7 @@ namespace ClanBattleGame.ViewModel
                 if (Money < AddLightCost)
                     return;
 
-                if (_shop.AddUnit(SelectedSquad, UnitType.Archer))
+                if (_shop.AddUnit(SelectedSquad, UnitType.Light))
                 {
                     Money -= AddLightCost;
                     AddLightCost += ShopEconomic.AddUnitIncrease;
@@ -191,7 +191,7 @@ namespace ClanBattleGame.ViewModel
                 if (Money < AddHeavyCost)
                     return;
 
-                if (_shop.AddUnit(SelectedSquad, UnitType.Archer))
+                if (_shop.AddUnit(SelectedSquad, UnitType.Heavy))
                 {
                     Money -= AddHeavyCost;
                     AddHeavyCost += ShopEconomic.AddUnitIncrease;

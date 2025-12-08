@@ -3,51 +3,34 @@ using ClanBattleGame.Model.Etc;
 
 namespace ClanBattleGame.ViewModel
 {
+    public enum CellState
+    {
+        Default,
+        Selected,
+        MoveAvailable,
+        AttackAvailable
+    }
+
     public class HexCellVM : ObservableObject
     {
         public int Row { get; }
         public int Col { get; }
 
-        private double _x;
-        public double X
-        {
-            get => _x;
-            set { _x = value; OnPropertyChanged(); }
-        }
+        public double X { get; }
+        public double Y { get; }
 
-        private double _y;
-        public double Y
+        private CellState _state = CellState.Default;
+        public CellState State
         {
-            get => _y;
-            set { _y = value; OnPropertyChanged(); }
-        }
-
-        private bool _isSelected;
-        public bool IsSelected
-        {
-            get => _isSelected;
-            set { _isSelected = value; OnPropertyChanged(); }
+            get => _state;
+            set => Set(ref _state, value);
         }
 
         private Squad _occupant;
         public Squad Occupant
         {
             get => _occupant;
-            set { _occupant = value; OnPropertyChanged(); }
-        }
-
-        private bool _isHighlighted;
-        public bool IsHighlighted
-        {
-            get => _isHighlighted;
-            set { _isHighlighted = value; OnPropertyChanged(); }
-        }
-
-        private bool _isEnemyInRange;
-        public bool IsEnemyInRange
-        {
-            get => _isEnemyInRange;
-            set { _isEnemyInRange = value; OnPropertyChanged(); }
+            set => Set(ref _occupant, value);
         }
 
         public HexCellVM(int row, int col, double x, double y)

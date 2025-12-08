@@ -16,23 +16,25 @@
                     <Setter Property="Fill" Value="LightGray" />
                     <Style.Triggers>
 
-                        <!-- Атака має найвищий пріоритет -->
-                        <DataTrigger Binding="{Binding IsEnemyInRange}" Value="True">
-                            <Setter Property="Fill" Value="#66FF0000"/>
-                            <Setter Property="Stroke" Value="Red"/>
-                            <Setter Property="StrokeThickness" Value="2"/>
+                        <!-- Атака -->
+                        <DataTrigger Binding="{Binding State}" Value="AttackAvailable">
+                            <Setter Property="Fill" Value="#66FF0000" />
+                            <Setter Property="Stroke" Value="Red" />
+                            <Setter Property="StrokeThickness" Value="2" />
                         </DataTrigger>
 
-                        <!-- Підсвічування руху -->
-                        <DataTrigger Binding="{Binding IsHighlighted}" Value="True">
-                            <Setter Property="Fill" Value="#88FFEA00"/>
-                            <Setter Property="Stroke" Value="Orange"/>
-                            <Setter Property="StrokeThickness" Value="2"/>
+                        <!-- Рух -->
+                        <DataTrigger Binding="{Binding State}" Value="MoveAvailable">
+                            <Setter Property="Fill" Value="#88FFEA00" />
+                            <Setter Property="Stroke" Value="Orange" />
+                            <Setter Property="StrokeThickness" Value="2" />
                         </DataTrigger>
 
-                        <!-- Якщо клітинка обрана -->
-                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                        <!-- Вибрана клітинка -->
+                        <DataTrigger Binding="{Binding State}" Value="Selected">
                             <Setter Property="Fill" Value="Orange" />
+                            <Setter Property="Stroke" Value="DarkOrange" />
+                            <Setter Property="StrokeThickness" Value="2" />
                         </DataTrigger>
 
                     </Style.Triggers>
@@ -40,15 +42,19 @@
             </Polygon.Style>
 
             <Polygon.InputBindings>
+
+                <!-- Лівий клік → вибір клітинки -->
                 <MouseBinding MouseAction="LeftClick"
-                              Command="{Binding DataContext.SelectCellCommand,
-                                                RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                              CommandParameter="{Binding}" />
-                
+                  Command="{Binding DataContext.SelectCellCommand,
+                                    RelativeSource={RelativeSource AncestorType=Page}}"
+                  CommandParameter="{Binding}" />
+
+                <!-- Правий клік → рух/атака -->
                 <MouseBinding MouseAction="RightClick"
-              Command="{Binding DataContext.MoveCommand,
-                                RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-              CommandParameter="{Binding}" />
+                  Command="{Binding DataContext.MoveOrAttackCommand,
+                                    RelativeSource={RelativeSource AncestorType=Page}}"
+                  CommandParameter="{Binding}" />
+
             </Polygon.InputBindings>
         </Polygon>
 

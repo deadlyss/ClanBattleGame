@@ -55,8 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Bridge\ClanInfoPrinter.cs" />
-    <Compile Include="Bridge\TextClanFormatter.cs" />
+    <Compile Include="Core\BoolToVisibilityConverter.cs" />
     <Compile Include="Core\DeepCopyExtensions.cs" />
     <Compile Include="Interface\IClanFormatter.cs" />
     <Compile Include="Memento\BattleHistory.cs" />
@@ -75,8 +74,11 @@
     <Compile Include="Model\Units\Leader.cs" />
     <Compile Include="Model\Units\LightUnit.cs" />
     <Compile Include="Service\GameStateService.cs" />
+    <Compile Include="Service\HexHighlighter.cs" />
+    <Compile Include="Service\HexNeighborService.cs" />
     <Compile Include="Service\NavigationService.cs" />
     <Compile Include="Service\NavigationStore.cs" />
+    <Compile Include="Service\Printers\SquadPrinter.cs" />
     <Compile Include="Service\ShopEconomic.cs" />
     <Compile Include="Service\ShopService.cs" />
     <Compile Include="Strategy\AttackUpgradeStrategy.cs" />

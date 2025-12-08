@@ -24,16 +24,24 @@ namespace ClanBattleGame.Service
 
         public BattleOutcome FightOnce(Squad attacker, Squad defender)
         {
-            StringBuilder log = new StringBuilder();
+            BattleOutcome outcome = new BattleOutcome();
 
             var aliveA = attacker.Units.Where(u => u.CurrentHealth > 0).ToList();
             var aliveB = defender.Units.Where(u => u.CurrentHealth > 0).ToList();
 
             if (aliveA.Count == 0)
-                return new BattleOutcome { Result = BattleResult.AttackerDies, Log = "Атакуючий загін вже мертвий." };
+            {
+                outcome.Reports.Add("❌ Атакуючий загін вже мертвий.");
+                outcome.Result = BattleResult.AttackerDies;
+                return outcome;
+            }
 
             if (aliveB.Count == 0)
-                return new BattleOutcome { Result = BattleResult.DefenderDies, Log = "Захисник вже мертвий." };
+            {
+                outcome.Reports.Add("❌ Захисник вже мертвий.");
+                outcome.Result = BattleResult.DefenderDies;
+                return outcome;
+            }
 
             int max = Math.Max(aliveA.Count, aliveB.Count);
 
@@ -48,45 +56,45 @@ namespace ClanBattleGame.Service
                 var A = aliveA[i % aliveA.Count];
                 var B = aliveB[i % aliveB.Count];
 
-                // А атакує B
+                // -------------------------------
+                //      АТАКА АТАКУЮЧОГО
+                // -------------------------------
                 int dmgA = A.TotalAttack;
                 B.CurrentHealth -= dmgA;
                 if (B.CurrentHealth < 0) B.CurrentHealth = 0;
 
-                log.AppendLine($"{A.Name} → {B.Name} ({dmgA})   HP={B.CurrentHealth}");
+                outcome.Reports.Add($"{A.Name} атакує {B.Name} на {dmgA} урону.  (HP {B.CurrentHealth})");
 
                 if (B.CurrentHealth == 0)
                 {
-                    log.AppendLine($"{B.Name} загинув!");
-                    continue;
+                    outcome.Reports.Add($"💀 {B.Name} загинув!");
+                    continue; // B не може контратакувати
                 }
 
-                // Контратака
+                // -------------------------------
+                //          КОНТРАТАКА
+                // -------------------------------
                 int dmgB = B.TotalAttack;
                 A.CurrentHealth -= dmgB;
                 if (A.CurrentHealth < 0) A.CurrentHealth = 0;
 
-                log.AppendLine($"{B.Name} → {A.Name} ({dmgB})   HP={A.CurrentHealth}");
+                outcome.Reports.Add($"{B.Name} контратакує {A.Name} на {dmgB} урону.  (HP {A.CurrentHealth})");
 
                 if (A.CurrentHealth == 0)
-                    log.AppendLine($"{A.Name} загинув!");
+                {
+                    outcome.Reports.Add($"💀 {A.Name} загинув!");
+                }
             }
 
             bool attackerAlive = attacker.Units.Any(u => u.CurrentHealth > 0);
             bool defenderAlive = defender.Units.Any(u => u.CurrentHealth > 0);
 
-            BattleResult result;
+            if (attackerAlive && !defenderAlive) outcome.Result = BattleResult.AttackerWins;
+            else if (!attackerAlive && defenderAlive) outcome.Result = BattleResult.DefenderWins;
+            else if (!attackerAlive && !defenderAlive) outcome.Result = BattleResult.BothDie;
+            else outcome.Result = BattleResult.BothAlive;
 
-            if (attackerAlive && !defenderAlive) result = BattleResult.AttackerWins;
-            else if (!attackerAlive && defenderAlive) result = BattleResult.DefenderWins;
-            else if (!attackerAlive && !defenderAlive) result = BattleResult.BothDie;
-            else result = BattleResult.BothAlive;
-
-            return new BattleOutcome
-            {
-                Result = result,
-                Log = log.ToString()
-            };
+            return outcome;
         }
     }
 }

@@ -4,7 +4,8 @@
              xmlns:local="clr-namespace:ClanBattleGame"
              StartupUri="View/MainWindow.xaml"
              xmlns:view="clr-namespace:ClanBattleGame.View.Pages"
-             xmlns:vm="clr-namespace:ClanBattleGame.ViewModel">
+             xmlns:vm="clr-namespace:ClanBattleGame.ViewModel"
+             xmlns:core="clr-namespace:ClanBattleGame.Core">
 
     <Application.Resources>
 
@@ -24,6 +25,7 @@
             <view:BattlePage/>
         </DataTemplate>
 
+        <core:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </Application.Resources>
     
 </Application>
