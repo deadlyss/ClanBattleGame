@@ -1,10 +1,10 @@
 ﻿using System.Windows.Controls;
 
-namespace ClanBattleGame.View
+namespace ClanBattleGame.View.Pages
 {
-    public partial class MainMenu : Page
+    public partial class HomePage : Page
     {
-        public MainMenu()
+        public HomePage()
         {
             InitializeComponent();
         }

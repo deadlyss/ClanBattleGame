@@ -1,6 +1,7 @@
 ﻿using ClanBattleGame.Interface;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace ClanBattleGame.Model.Etc
 {
@@ -8,14 +9,18 @@ namespace ClanBattleGame.Model.Etc
     public class Squad
     {
         public string Name { get; set; }
-        public List<IUnit> Units { get; set; } = new List<IUnit>();
+        public ObservableCollection<IUnit> Units { get; set; }
 
         public Squad(string name)
         {
             Name = name;
+            Units = new ObservableCollection<IUnit>(); // ← важливо!
         }
 
-        public Squad() { }
+        public Squad()
+        {
+            Units = new ObservableCollection<IUnit>(); // ← важливо!
+        }
 
         public Squad DeepCopy()
         {

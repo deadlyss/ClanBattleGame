@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ClanBattleGame.View
+namespace ClanBattleGame.View.Cards
 {
     /// <summary>
-    /// Логика взаимодействия для NewGamePage.xaml
+    /// Логика взаимодействия для SquadCard.xaml
     /// </summary>
-    public partial class NewGamePage : Page
+    public partial class SquadCard : UserControl
     {
-        public NewGamePage()
+        public SquadCard()
         {
             InitializeComponent();
         }

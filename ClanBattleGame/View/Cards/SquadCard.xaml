@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="ClanBattleGame.View.Cards.SquadCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ClanBattleGame.View.Cards"
+             mc:Ignorable="d" 
+             Height="120" Width="220">
+
+    <Border CornerRadius="8" BorderBrush="DarkSlateBlue" BorderThickness="2" Padding="10" Margin="5">
+        <StackPanel>
+
+            <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="18"/>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Units: " FontWeight="Bold"/>
+                <TextBlock Text="{Binding Units.Count}"/>
+            </StackPanel>
+
+        </StackPanel>
+    </Border>
+</UserControl>

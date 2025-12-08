@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="ClanBattleGame.View.Cards.UnitCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ClanBattleGame.View.Cards"
+             mc:Ignorable="d" 
+             Height="120" Width="200">
+
+    <Border x:Name="CardBorder"
+        CornerRadius="8"
+        BorderBrush="{Binding BorderColor, RelativeSource={RelativeSource AncestorType=UserControl}}"
+        BorderThickness="2"
+        Padding="10"
+        Margin="5">
+        
+        <StackPanel>
+
+            <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="16" />
+
+            <TextBlock Text="{Binding Type}" Foreground="DarkGreen" FontSize="13"/>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="HP: " FontWeight="Bold"/>
+                <TextBlock Text="{Binding TotalHealth}"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="ATK: " FontWeight="Bold"/>
+                <TextBlock Text="{Binding TotalAttack}"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Weapon: " FontWeight="Bold"/>
+                <TextBlock Text="{Binding Weapon}"/>
+            </StackPanel>
+
+        </StackPanel>
+    </Border>
+</UserControl>

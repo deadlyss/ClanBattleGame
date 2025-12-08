@@ -58,11 +58,13 @@
     <Compile Include="Bridge\ClanInfoPrinter.cs" />
     <Compile Include="Bridge\TextClanFormatter.cs" />
     <Compile Include="Core\DeepCopyExtensions.cs" />
-    <Compile Include="Core\UnitIsLeaderConverter.cs" />
     <Compile Include="Interface\IClanFormatter.cs" />
     <Compile Include="Memento\BattleHistory.cs" />
     <Compile Include="Memento\BattleMemento.cs" />
+    <Compile Include="Memento\ClanHistory.cs" />
+    <Compile Include="Memento\ClanMemento.cs" />
     <Compile Include="Model\Race.cs" />
+    <Compile Include="Service\BattleOutcome.cs" />
     <Compile Include="Service\BattleState.cs" />
     <Compile Include="Service\ClanBuilder.cs" />
     <Compile Include="Core\ObservableObject.cs" />
@@ -72,30 +74,64 @@
     <Compile Include="Model\Units\HeavyUnit.cs" />
     <Compile Include="Model\Units\Leader.cs" />
     <Compile Include="Model\Units\LightUnit.cs" />
+    <Compile Include="Service\GameStateService.cs" />
+    <Compile Include="Service\NavigationService.cs" />
+    <Compile Include="Service\NavigationStore.cs" />
+    <Compile Include="Service\ShopEconomic.cs" />
+    <Compile Include="Service\ShopService.cs" />
+    <Compile Include="Strategy\AttackUpgradeStrategy.cs" />
+    <Compile Include="Strategy\HealthUpgradeStrategy.cs" />
+    <Compile Include="Strategy\IUpgradeStrategy.cs" />
     <Compile Include="ViewModel\BattleVM.cs" />
+    <Compile Include="ViewModel\HexCellVM.cs" />
     <Compile Include="ViewModel\HexFieldVM.cs" />
-    <Compile Include="View\HexCell.xaml.cs">
+    <Compile Include="ViewModel\HomeVM.cs" />
+    <Compile Include="ViewModel\MainMenuVM.cs" />
+    <Compile Include="ViewModel\MainVM.cs" />
+    <Compile Include="ViewModel\NewGameVM.cs" />
+    <Compile Include="View\Cards\SquadCard.xaml.cs">
+      <DependentUpon>SquadCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Cards\UnitCard.xaml.cs">
+      <DependentUpon>UnitCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\HexCell.xaml.cs">
       <DependentUpon>HexCell.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\HomePage.xaml.cs">
+    <Compile Include="View\Controls\HexField.xaml.cs">
+      <DependentUpon>HexField.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\NewGamePage.xaml.cs">
+    <Compile Include="View\Pages\NewGamePage.xaml.cs">
       <DependentUpon>NewGamePage.xaml</DependentUpon>
     </Compile>
-    <Page Include="View\BattlePage.xaml">
+    <Page Include="View\Cards\SquadCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\HexCell.xaml">
+    <Page Include="View\Cards\UnitCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\HomePage.xaml">
+    <Page Include="View\Controls\HexField.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\MainMenu.xaml">
+    <Page Include="View\Pages\BattlePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\HexCell.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Pages\HomePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Pages\MainMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -111,17 +147,17 @@
     <Compile Include="Factories\ElfFactory.cs" />
     <Compile Include="Interface\IClanFactory.cs" />
     <Compile Include="Interface\IUnit.cs" />
-    <Compile Include="View\BattlePage.xaml.cs">
+    <Compile Include="View\Pages\BattlePage.xaml.cs">
       <DependentUpon>BattlePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\MainMenu.xaml.cs">
+    <Compile Include="View\Pages\MainMenu.xaml.cs">
       <DependentUpon>MainMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\NewGamePage.xaml">
+    <Page Include="View\Pages\NewGamePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,6 +1,7 @@
 ﻿using ClanBattleGame.Core;
 using ClanBattleGame.Interface;
 using System;
+using System.Windows.Media.TextFormatting;
 
 namespace ClanBattleGame.Model.Units
 {
@@ -9,13 +10,12 @@ namespace ClanBattleGame.Model.Units
     {
         public string Name { get; private set; }
         public string Type => "Heavy";
-        private int _health;
         public int Attack { get; private set; }
+        public int Health { get; private set; }
         public string Weapon { get; private set; }
-        public int BonusAttack { get; set; } = 0;
-        public int TotalAttack => Attack + BonusAttack;
 
-        public int Health
+        private int _health;
+        public int BonusHealth
         {
             get => _health;
             set
@@ -24,9 +24,42 @@ namespace ClanBattleGame.Model.Units
                 {
                     _health = value;
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(TotalHealth));
                 }
             }
         }
+
+        private int _bonusAttack;
+        public int BonusAttack
+        {
+            get => _bonusAttack;
+            set
+            {
+                if (_bonusAttack != value)
+                {
+                    _bonusAttack = value;
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(TotalAttack));
+                }
+            }
+        }
+
+        private int _currentHealth;
+        public int CurrentHealth
+        {
+            get => _currentHealth;
+            set
+            {
+                if (_currentHealth != value)
+                {
+                    _currentHealth = Math.Max(0, value);
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public int TotalHealth => Health + BonusHealth;
+        public int TotalAttack => Attack + BonusAttack;
 
         public HeavyUnit(string name, int health, int attack, string weapon)
         {
@@ -34,6 +67,19 @@ namespace ClanBattleGame.Model.Units
             Health = health;
             Attack = attack;
             Weapon = weapon;
+            BonusAttack = 0;
+            BonusHealth = 0;
+            CurrentHealth = TotalHealth;
+        }
+
+        public HeavyUnit()
+        {
+            Name = "Heavy";
+            Health = 60;
+            Attack = 10;
+            Weapon = "Axe";
+            BonusAttack = 0;
+            BonusHealth = 0;
         }
 
         public IUnit Clone()

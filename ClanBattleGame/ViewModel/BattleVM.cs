@@ -1,199 +1,56 @@
-﻿using ClanBattleGame.Model.Etc;
-using ClanBattleGame.Core;
-using ClanBattleGame.Factories;
-using ClanBattleGame.Service;
-using ClanBattleGame.Model.Units;
+﻿using ClanBattleGame.Core;
 using ClanBattleGame.Model;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Input;
-using ClanBattleGame.Interface;
-using ClanBattleGame.Bridge;
+using ClanBattleGame.Model.Etc;
+using ClanBattleGame.Service;
+using ClanBattleGame.View.Controls;
 using System;
-using ClanBattleGame.Memento;
 
 namespace ClanBattleGame.ViewModel
 {
     public class BattleVM : ObservableObject
     {
-        private readonly BattleEngine _engine = new BattleEngine();
+        private Squad _selectedSquad;
+        public Clan PlayerClan { get; }
+        public Clan EnemyClan { get; }
 
-        public Clan ClanA { get; }
-        public Clan ClanB { get; }
+        public HexFieldVM HexField { get; }
 
-        public ObservableCollection<Squad> SquadsA { get; }
-        public ObservableCollection<Squad> SquadsB { get; }
-
-        public BattleState State { get; private set; }
-
-        private Squad _selectedSquadA;
-        public Squad SelectedSquadA
+        public Squad SelectedSquad
         {
-            get => _selectedSquadA;
+            get => _selectedSquad;
             set
             {
-                _selectedSquadA = value;
+                _selectedSquad = value;
+                HexField.SelectedPlayerSquad = value; // ← важливо
                 OnPropertyChanged();
             }
         }
-        public BattleHistory History { get; } = new BattleHistory();
 
-        private string _battleLog = "";
+        private string _battleLog;
         public string BattleLog
         {
             get => _battleLog;
-            set { _battleLog = value; OnPropertyChanged(); }
+            set
+            {
+                _battleLog = value;
+                OnPropertyChanged();
+            }
         }
 
-        public ICommand SaveCommand { get; }
-        public ICommand RestoreCommand { get; }
-        public ICommand RoundCommand { get; }
-        public ICommand FullBattleCommand { get; }
-
-        public BattleVM()
+        public BattleVM(NavigationStore navStore, Clan player, Clan enemy)
         {
+            PlayerClan = player.DeepCopy();
+            EnemyClan = enemy.DeepCopy();
 
+            BattleEngine engine = new BattleEngine();
 
-            ClanBuilder builderA = new ClanBuilder(new ElfFactory());
-            ClanBuilder builderB = new ClanBuilder(new DwarfFactory());
+            HexField = new HexFieldVM();
+            HexField.OwnerVM = this;
+            HexField.BattleEngine = engine;
+            HexField.PlayerClan = PlayerClan;
+            HexField.EnemyClan = EnemyClan;
 
-            ClanA = builderA.Build("Elven Clan");
-            ClanB = builderB.Build("Dwarven Clan");
-
-            Random rnd = new Random();
-
-            // вибір лідера клану A
-            var leaderA = ClanA.GetAllUnits()[rnd.Next(ClanA.GetAllUnits().Count)];
-            Leader.Create(ClanA.Name, leaderA);
-            ClanA.Leader = leaderA;
-            builderA.ApplyLeaderBonuses(ClanA);
-
-            // вибір лідера клану Б
-            var leaderB = ClanB.GetAllUnits()[rnd.Next(ClanB.GetAllUnits().Count)];
-            Leader.Create(ClanB.Name, leaderB);
-            ClanB.Leader = leaderB;
-            builderB.ApplyLeaderBonuses(ClanB);
-
-            //// визначаємо, до кого він належить
-            //if (ClanA.GetAllUnits().Contains(chosenLeader))
-            //{
-            //    ClanA.Leader = chosenLeader;
-            //    builderA.ApplyLeaderBonuses(ClanA);
-            //}
-            //else
-            //{
-            //    ClanB.Leader = chosenLeader;
-            //    builderB.ApplyLeaderBonuses(ClanB);
-            //}
-
-            // Колекції для UI
-            SquadsA = new ObservableCollection<Squad>(ClanA.Squads);
-            SquadsB = new ObservableCollection<Squad>(ClanB.Squads);
-
-            // Ініціалізація бою
-            State = _engine.Initialize(ClanA, ClanB);
-
-            RoundCommand = new RelayCommand(o =>
-            {
-                Squad selected = SelectedSquadA; // з UI
-                string log = _engine.Step(State, selected);
-                BattleLog += log + "\n";
-            });
-            //FullBattleCommand = new RelayCommand(o => DoFullBattle());
-
-            var formatter = new TextClanFormatter();
-            var printer = new ClanInfoPrinter(formatter);
-
-            BattleLog += "=== Інформація про Клан A ===\n";
-            BattleLog += printer.PrintClan(ClanA) + "\n\n";
-
-            BattleLog += "=== Інформація про Клан B ===\n";
-            BattleLog += printer.PrintClan(ClanB) + "\n\n";
-
-            SaveCommand = new RelayCommand(o => SaveCheckpoint());
-            RestoreCommand = new RelayCommand(o => LoadCheckpoint());
-        }
-
-        //private void DoRound()
-        //{
-        //    string log = _engine.Step(State);
-        //    BattleLog += log + "\n";
-        //}
-
-        //private void DoFullBattle()
-        //{
-        //    string log = _engine.FightSquadFully(State);
-        //    BattleLog += log + "\n";
-        //}
-
-        private void SaveCheckpoint()
-        {
-            var memento = new BattleMemento(
-                ClanA,
-                ClanB,
-                State,
-                ClanA.Leader?.Name,
-                ClanB.Leader?.Name);
-            History.Save(memento);
-            BattleLog += "Контрольна точка збережена.\n";
-        }
-
-        private void LoadCheckpoint()
-        {
-            var memento = History.Restore();
-            if (memento == null)
-            {
-                BattleLog += "Немає збережених контрольних точок.\n";
-                return;
-            }
-
-            ClanA.Squads.Clear();
-            foreach (var s in memento.SavedClanA.Squads)
-                ClanA.Squads.Add(s);
-
-            ClanB.Squads.Clear();
-            foreach (var s in memento.SavedClanB.Squads)
-                ClanB.Squads.Add(s);
-
-            State = memento.SavedState.DeepCopy();
-
-            Leader.Reset();
-
-            //відновлення лідеру А
-            var restoredLeaderA = ClanA
-                .GetAllUnits()
-                .FirstOrDefault(u => u.Name == memento.LeaderAName);
-
-            if (restoredLeaderA != null)
-            {
-                Leader.Create(ClanA.Name, restoredLeaderA);
-                ClanA.Leader = restoredLeaderA;
-            }
-            else
-            {
-                ClanA.Leader = null;
-            }
-
-            // відновлення лідеру Б
-            var restoredLeaderB = ClanB
-                .GetAllUnits()
-                .FirstOrDefault(u => u.Name == memento.LeaderBName);
-
-            if (restoredLeaderB != null)
-            {
-                Leader.Create(ClanB.Name, restoredLeaderB);
-                ClanB.Leader = restoredLeaderB;
-            }
-            else
-            {
-                ClanB.Leader = null;
-            }
-
-            OnPropertyChanged(nameof(ClanA));
-            OnPropertyChanged(nameof(ClanB));
-            OnPropertyChanged(nameof(State));
-
-            BattleLog += "Стан гри відновлено!\n";
+            HexField.PlaceInitialUnits(PlayerClan, EnemyClan);
         }
     }
 }

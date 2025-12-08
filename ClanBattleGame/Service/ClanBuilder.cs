@@ -75,40 +75,5 @@ namespace ClanBattleGame.Service
             string last = LastNames[race][_rnd.Next(LastNames[race].Length)];
             return $"{first} {last}";
         }
-
-        // застосування бонусів виконуватиметься в BattleVM після вибору лідера
-        public void ApplyLeaderBonuses(Clan clan)
-        {
-            if (clan.Leader == null)
-                return;
-
-            var leader = clan.Leader;
-
-            // Загін лідера
-            Squad leaderSquad = null;
-
-            foreach (var squad in clan.Squads)
-            {
-                if (squad.Units.Contains(leader))
-                {
-                    leaderSquad = squad;
-                    break;
-                }
-            }
-
-            if (leaderSquad == null)
-                return;
-
-            // +10% ATK загону
-            foreach (var unit in leaderSquad.Units)
-                unit.BonusAttack = (int)(unit.Attack * 0.10);
-
-            // +5% HP всьому клану
-            foreach (var squad in clan.Squads)
-            {
-                foreach (var unit in squad.Units)
-                    unit.Health = (int)(unit.Health * 1.05);
-            }
-        }
     }
 }
