@@ -1,6 +1,5 @@
 ﻿using ClanBattleGame.Core;
 using ClanBattleGame.Model;
-using ClanBattleGame.Service;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -20,6 +19,7 @@ namespace ClanBattleGame.ViewModel
 
         private const double StepX = CellWidth;
         private const double StepY = CellHeight * 0.72;
+
 
         public HexFieldVM(int rows = 10, int cols = 10)
         {
