@@ -1,4 +1,4 @@
-﻿using ClanBattleGame.Model;
+﻿using ClanBattleGame.Model.Etc;
 
 namespace ClanBattleGame.Interface
 {
@@ -6,8 +6,6 @@ namespace ClanBattleGame.Interface
     {
         Race Race { get; }
 
-        IUnit CreateLightUnit();
-        IUnit CreateHeavyUnit();
         IUnit CreateArcherUnit();
     }
 }

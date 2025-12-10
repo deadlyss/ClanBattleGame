@@ -1,45 +1,61 @@
-﻿using ClanBattleGame.Interface;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace ClanBattleGame.Model.Units
 {
-    [Serializable]
+    public enum LeaderType
+    {
+        Player,
+        Enemy
+    }
     public sealed class Leader
     {
-        // MULTITON: ключ → лідер
-        private static Dictionary<string, Leader> _leaders = new Dictionary<string, Leader>();
+        private static readonly Dictionary<LeaderType, Leader> _instances =
+            new Dictionary<LeaderType, Leader>();
 
-        public IUnit Unit { get; private set; }
-        public string ClanName { get; private set; }
+        public string Name { get; private set; }
+        public int Health { get; private set; }
+        public int Attack { get; private set; }
 
-        private Leader() { }
-
-        public static Leader Create(string clanName, IUnit unit)
+        private Leader(string name, int health, int attack)
         {
-            if (!_leaders.ContainsKey(clanName))
-                _leaders[clanName] = new Leader();
-
-            _leaders[clanName].Unit = unit;
-            _leaders[clanName].ClanName = clanName;
-
-            return _leaders[clanName];
+            Name = name;
+            Health = health;
+            Attack = attack;
         }
 
-        public static Leader Get(string clanName)
+        public static Leader GetInstance(LeaderType type)
         {
-            return _leaders.ContainsKey(clanName) ? _leaders[clanName] : null;
+            Leader instance;
+
+            if (_instances.TryGetValue(type, out instance))
+                return instance;
+
+            switch (type)
+            {
+                case LeaderType.Player:
+                    instance = new Leader("Player Leader", 120, 40);
+                    break;
+
+                case LeaderType.Enemy:
+                    instance = new Leader("Enemy Leader", 140, 35);
+                    break;
+
+                default:
+                    throw new Exception("Unknown leader type");
+            }
+
+            _instances[type] = instance;
+            return instance;
         }
 
-        // 🔥 ТУТ головний метод, якого у тебе немає
-        public static IEnumerable<Leader> GetAll()
+        public Leader DeepCopy()//копія для битви
         {
-            return _leaders.Values;
-        }
-
-        public static void Reset()
-        {
-            _leaders.Clear();
+            return new Leader(
+                String.Copy(this.Name),
+                this.Health,
+                this.Attack
+            );
         }
     }
 }

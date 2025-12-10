@@ -4,7 +4,6 @@ using System;
 
 namespace ClanBattleGame.Model.Units
 {
-    [Serializable]
     public class ArcherUnit : ObservableObject, IUnit
     {
         public string Name { get; private set; }
@@ -71,7 +70,7 @@ namespace ClanBattleGame.Model.Units
             CurrentHealth = TotalHealth;
         }
 
-        public ArcherUnit()
+        public ArcherUnit() // дефолт конструктор
         {
             Name = "Archer";
             Health = 30;
@@ -81,14 +80,21 @@ namespace ClanBattleGame.Model.Units
             BonusHealth = 0;
         }
 
-        public IUnit Clone()
+        public IUnit DeepCopy() //клонування
         {
-            return (IUnit)this.MemberwiseClone();
-        }
+            var clone = new ArcherUnit
+            {
+                Name = String.Copy(this.Name),
+                Health = this.Health,
+                Attack = this.Attack,
+                Weapon = String.Copy(this.Weapon),
 
-        public IUnit CloneWithName(string newName)
-        {
-            return new ArcherUnit(newName, this.Health, this.Attack, this.Weapon);
+                BonusAttack = this.BonusAttack,
+                BonusHealth = this.BonusHealth,
+                CurrentHealth = this.CurrentHealth
+            };
+
+            return clone;
         }
     }
 }

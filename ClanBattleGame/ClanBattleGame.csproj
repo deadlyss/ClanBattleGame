@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -55,14 +58,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Core\BoolToVisibilityConverter.cs" />
-    <Compile Include="Core\DeepCopyExtensions.cs" />
-    <Compile Include="Interface\IClanFormatter.cs" />
-    <Compile Include="Memento\BattleHistory.cs" />
-    <Compile Include="Memento\BattleMemento.cs" />
-    <Compile Include="Memento\ClanHistory.cs" />
-    <Compile Include="Memento\ClanMemento.cs" />
-    <Compile Include="Model\Race.cs" />
+    <Compile Include="Model\Etc\Race.cs" />
     <Compile Include="Service\BattleOutcome.cs" />
     <Compile Include="Service\BattleState.cs" />
     <Compile Include="Service\ClanBuilder.cs" />
@@ -70,20 +66,15 @@
     <Compile Include="Core\RelayCommand.cs" />
     <Compile Include="Factories\DwarfFactory.cs" />
     <Compile Include="Model\Etc\Squad.cs" />
-    <Compile Include="Model\Units\HeavyUnit.cs" />
     <Compile Include="Model\Units\Leader.cs" />
-    <Compile Include="Model\Units\LightUnit.cs" />
     <Compile Include="Service\GameStateService.cs" />
     <Compile Include="Service\HexHighlighter.cs" />
     <Compile Include="Service\HexNeighborService.cs" />
     <Compile Include="Service\NavigationService.cs" />
     <Compile Include="Service\NavigationStore.cs" />
-    <Compile Include="Service\Printers\SquadPrinter.cs" />
     <Compile Include="Service\ShopEconomic.cs" />
     <Compile Include="Service\ShopService.cs" />
-    <Compile Include="Strategy\AttackUpgradeStrategy.cs" />
-    <Compile Include="Strategy\HealthUpgradeStrategy.cs" />
-    <Compile Include="Strategy\IUpgradeStrategy.cs" />
+    <Compile Include="Interface\IUpgradeStrategy.cs" />
     <Compile Include="ViewModel\BattleVM.cs" />
     <Compile Include="ViewModel\HexCellVM.cs" />
     <Compile Include="ViewModel\HexFieldVM.cs" />
@@ -184,6 +175,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
