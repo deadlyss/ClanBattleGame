@@ -1,8 +1,9 @@
-﻿using ClanBattleGame.Interface;
+﻿using ClanBattleGame.Factories;
+using ClanBattleGame.Interface;
 using ClanBattleGame.Model;
 using ClanBattleGame.Model.Etc;
+using ClanBattleGame.Model.Units;
 using System;
-using System.Collections.Generic;
 
 namespace ClanBattleGame.Service
 {
@@ -16,14 +17,17 @@ namespace ClanBattleGame.Service
             _factory = factory;
         }
 
-        public Clan Build(string clanName)
+        public Clan CreateClan(string clanName, Leader leader)
         {
-            Clan clan = new Clan(clanName);
+            Clan clan = new Clan(clanName, leader, _factory.Race);
 
             int squadCount = _rnd.Next(2, 4); // 2–3 загони
+            
 
             for (int i = 0; i < squadCount; i++)
                 clan.Squads.Add(CreateSquad(i + 1));
+
+            clan.Squads[0].Units.Insert(0, leader); //додаємо лідера до першого загону
 
             return clan;
         }
@@ -32,48 +36,17 @@ namespace ClanBattleGame.Service
         {
             Squad squad = new Squad($"Загін {index}");
 
-            int unitCount = _rnd.Next(3, 8);
+            int unitCount = _rnd.Next(3, 8); // 3 - 7 юнітів
 
             for (int i = 0; i < unitCount; i++)
-                squad.Units.Add(CreateRandomUnit());
+                squad.Units.Add(CreateUnit());
 
             return squad;
         }
 
-        private IUnit CreateRandomUnit()
+        private IUnit CreateUnit()
         {
-            IUnit prototype;
-
-            switch (_rnd.Next(3))
-            {
-                case 0: prototype = _factory.CreateLightUnit(); break;
-                case 1: prototype = _factory.CreateHeavyUnit(); break;
-                default: prototype = _factory.CreateArcherUnit(); break;
-            }
-
-            Race race = _factory.Race;
-            string fantasyName = GenerateFantasyName(race);
-
-            return prototype.CloneWithName(fantasyName);
-        }
-
-        private readonly Dictionary<Race, string[]> FirstNames = new Dictionary<Race, string[]>
-        {
-            { Race.Elf, new [] { "Elarion", "Faelis", "Loramir", "Aelar", "Thalindra", "Elenora", "Myrian" } },
-            { Race.Dwarf, new [] { "Borin", "Durgan", "Thorin", "Grimdor", "Balrim", "Brundur", "Kazgrim" } }
-        };
-
-        private readonly Dictionary<Race, string[]> LastNames = new Dictionary<Race, string[]>
-        {
-            { Race.Elf, new [] { "Swiftwind", "Moonsong", "Leafblade", "Starbloom", "Nightwhisper" } },
-            { Race.Dwarf, new [] { "Ironfist", "Stonehelm", "Deepdelver", "Goldbeard", "Hammerborn" } }
-        };
-
-        private string GenerateFantasyName(Race race)
-        {
-            string first = FirstNames[race][_rnd.Next(FirstNames[race].Length)];
-            string last = LastNames[race][_rnd.Next(LastNames[race].Length)];
-            return $"{first} {last}";
+            return _factory.CreateArcherUnit().DeepCopy();
         }
     }
 }

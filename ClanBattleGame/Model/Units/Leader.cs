@@ -1,61 +1,56 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ClanBattleGame.Core;
+using ClanBattleGame.Interface;
+using System;
+using System.Xml.Linq;
 
 namespace ClanBattleGame.Model.Units
 {
-    public enum LeaderType
-    {
-        Player,
-        Enemy
-    }
-    public sealed class Leader
-    {
-        private static readonly Dictionary<LeaderType, Leader> _instances =
-            new Dictionary<LeaderType, Leader>();
-
+    public class Leader : ObservableObject, IUnit //не може бути одинаком бо зміни в ХП
+    {                                             //після бою
         public string Name { get; private set; }
+        public string Type => "Leader";
+
         public int Health { get; private set; }
         public int Attack { get; private set; }
 
-        private Leader(string name, int health, int attack)
+        private int _currentHealth;
+        public int CurrentHealth
+        {
+            get => _currentHealth;
+            set
+            {
+                int newValue = Math.Max(0, value);
+
+                if (Set(ref _currentHealth, newValue))
+                    OnPropertyChanged(nameof(IsDead));
+            }
+        }
+
+        public int TotalHealth => Health;
+        public int TotalAttack => Attack;
+
+        public bool IsDead => CurrentHealth <= 0;
+
+        public Leader(string name, int health, int attack)
         {
             Name = name;
             Health = health;
             Attack = attack;
+            _currentHealth = health;
+        }
+        public Leader()
+        {
+            Name = "Leader Name";
+            Health = 100;
+            Attack = 20;
+            _currentHealth = Health;
         }
 
-        public static Leader GetInstance(LeaderType type)
+        public IUnit DeepCopy()
         {
-            Leader instance;
-
-            if (_instances.TryGetValue(type, out instance))
-                return instance;
-
-            switch (type)
-            {
-                case LeaderType.Player:
-                    instance = new Leader("Player Leader", 120, 40);
-                    break;
-
-                case LeaderType.Enemy:
-                    instance = new Leader("Enemy Leader", 140, 35);
-                    break;
-
-                default:
-                    throw new Exception("Unknown leader type");
-            }
-
-            _instances[type] = instance;
-            return instance;
-        }
-
-        public Leader DeepCopy()//копія для битви
-        {
-            return new Leader(
-                String.Copy(this.Name),
-                this.Health,
-                this.Attack
-            );
+            var copy = new Leader(Name, Health, Attack);
+            copy.CurrentHealth = this.CurrentHealth;
+            return copy;
         }
     }
 }

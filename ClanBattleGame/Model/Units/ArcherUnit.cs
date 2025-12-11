@@ -18,12 +18,8 @@ namespace ClanBattleGame.Model.Units
             get => _health;
             set
             {
-                if (_health != value)
-                {
-                    _health = value;
-                    OnPropertyChanged();
+                if (Set(ref _health, value))
                     OnPropertyChanged(nameof(TotalHealth));
-                }
             }
         }
 
@@ -33,14 +29,12 @@ namespace ClanBattleGame.Model.Units
             get => _bonusAttack;
             set
             {
-                if (_bonusAttack != value)
-                {
-                    _bonusAttack = value;
-                    OnPropertyChanged();
+                if (Set(ref _bonusAttack, value))
                     OnPropertyChanged(nameof(TotalAttack));
-                }
             }
         }
+
+        public bool IsDead => CurrentHealth <= 0;
 
         private int _currentHealth;
         public int CurrentHealth
@@ -48,11 +42,10 @@ namespace ClanBattleGame.Model.Units
             get => _currentHealth;
             set
             {
-                if (_currentHealth != value)
-                {
-                    _currentHealth = Math.Max(0, value);
-                    OnPropertyChanged();
-                }
+                int newValue = Math.Max(0, value);
+
+                if (Set(ref _currentHealth, newValue))
+                    OnPropertyChanged(nameof(IsDead));
             }
         }
 

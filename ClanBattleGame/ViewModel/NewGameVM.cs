@@ -1,7 +1,6 @@
 ﻿using ClanBattleGame.Core;
 using ClanBattleGame.Factories;
 using ClanBattleGame.Interface;
-using ClanBattleGame.Model;
 using ClanBattleGame.Service;
 using System;
 using System.Text.RegularExpressions;
@@ -11,41 +10,35 @@ namespace ClanBattleGame.ViewModel
 {
     public class NewGameVM : ObservableObject
     {
-        private string _clanName;
+        private string _clanName = "Greek"; // значення за замовчуванням!
         public string ClanName
         {
             get => _clanName;
             set
             {
-                _clanName = value;
-                OnPropertyChanged();
-                CommandManager.InvalidateRequerySuggested();
+                if (Set(ref _clanName, value))
+                    CommandManager.InvalidateRequerySuggested();
             }
         }
 
-        private string _leaderName;
+        private string _leaderName = "Adolf"; // значення за замовчуванням!
         public string LeaderName
         {
             get => _leaderName;
             set
             {
-                _leaderName = value;
-                OnPropertyChanged();
-                CommandManager.InvalidateRequerySuggested();
+                if (Set(ref _leaderName, value))
+                    CommandManager.InvalidateRequerySuggested();
             }
         }
 
         public Array RaceList => Enum.GetValues(typeof(Race));
 
-        private Race _selectedRace;
+        private Race _selectedRace = Race.Elf; // значення за замовчуванням
         public Race SelectedRace
         {
             get => _selectedRace;
-            set
-            {
-                _selectedRace = value;
-                OnPropertyChanged();
-            }
+            set => Set(ref _selectedRace, value);
         }
 
         public RelayCommand Back { get; }
@@ -53,17 +46,14 @@ namespace ClanBattleGame.ViewModel
 
         public NewGameVM(NavigationStore navStore)
         {
-            SelectedRace = Race.Elf; // значення за замовчуванням
-
-            Back = new RelayCommand(_ =>
+            Back = new RelayCommand(o =>
             {
                 new NavigationService(navStore, () => new MainMenuVM(navStore)).Navigate();
             });
 
-            Next = new RelayCommand(
-    _ =>
+            Next = new RelayCommand(o =>
     {
-        var state = GameStateService.Instance;
+        var state = GameState.Instance;
 
         // 1) Встановлюємо базові дані
         string clanName = ClanName;
@@ -71,23 +61,21 @@ namespace ClanBattleGame.ViewModel
         string leaderName = LeaderName;
 
         // 2) Вибираємо фабрику за расою
-        IClanFactory factory =
-            race == Race.Elf
-                ? (IClanFactory)new ElfFactory()
-                : new DwarfFactory();
+        IClanFactory factory = race == Race.Elf
+                ? (IClanFactory)new ElfFactory() : new DwarfFactory();
 
         // 3) Запускаємо нову гру через централізований метод
-        state.StartNewGame(clanName, race, leaderName, factory);
+        state.StartNewGame(clanName, leaderName, factory);
 
         // 4) Переходимо додому
         new NavigationService(navStore, () => new HomeVM(navStore)).Navigate();
     },
-    _ => IsValidName(ClanName) && IsValidName(LeaderName)
+    o => IsValid(ClanName) && IsValid(LeaderName)
 );
 
         }
 
-        private bool IsValidName(string name)
+        private bool IsValid(string name)
         {
             if (string.IsNullOrWhiteSpace(name)) return false;
             return name.Length > 3 && Regex.IsMatch(name, @"^[A-Za-zА-Яа-яІіЇїЄєҐґ]+$");

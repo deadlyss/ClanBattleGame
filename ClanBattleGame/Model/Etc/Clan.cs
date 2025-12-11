@@ -1,51 +1,45 @@
-﻿using ClanBattleGame.Interface;
-using System.Collections.Generic;
+﻿using ClanBattleGame.Factories;
+using ClanBattleGame.Interface;
 using ClanBattleGame.Model.Etc;
+using ClanBattleGame.Model.Units;
 using System;
+using System.Collections.Generic;
 
 namespace ClanBattleGame.Model
 {
-    [Serializable]
     public class Clan
     {
         public string Name { get; }
+        public Leader Leader { get; }
+        public Race Race { get; }
         public List<Squad> Squads { get; } = new List<Squad>();
-
-        public IUnit Leader { get; set; }
-
-        public Clan(string name)
+        public Clan(string name, Leader leader, Race race)
         {
             Name = name;
+            Leader = leader;
+            Race = race;
         }
-
-        public List<IUnit> GetAllUnits()
+        public IEnumerable<IUnit> GetAllUnits()
         {
-            List<IUnit> units = new List<IUnit>();
-
             foreach (var squad in Squads)
-                units.AddRange(squad.Units);
+                foreach (var unit in squad.Units)
+                    yield return unit;
 
-            return units;
+            yield return Leader;
         }
 
-        public Clan DeepCopy()
+        public IEnumerable<Squad> GetAllSquads()
         {
-            Clan copy = new Clan(this.Name);
-
-            // копіюємо загони
-            foreach (var squad in this.Squads)
-                copy.Squads.Add(squad.DeepCopy());
-
-            // копіюємо лідера, якщо він є
-            if (this.Leader != null)
-            {
-                // шукаємо клона лідера у нових копіях загонів
-                copy.Leader = copy
-                    .GetAllUnits()
-                    .Find(u => u.Name == this.Leader.Name);
-            }
-
-            return copy;
+            foreach (var squad in Squads)
+                yield return squad;
         }
+        public bool IsDefeated => Leader.IsDead;
+        public void AddSquad(Squad squad)
+        {
+            Squads.Add(squad);
+        }
+        
     }
 }
+
+

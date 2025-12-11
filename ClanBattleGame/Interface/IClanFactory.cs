@@ -1,4 +1,4 @@
-﻿using ClanBattleGame.Model.Etc;
+﻿using ClanBattleGame.Factories;
 
 namespace ClanBattleGame.Interface
 {

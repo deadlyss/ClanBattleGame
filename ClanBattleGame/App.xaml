@@ -21,11 +21,10 @@
             <view:HomePage/>
         </DataTemplate>
 
-        <DataTemplate DataType="{x:Type vm:BattleVM}">
+        <DataTemplate DataType="{x:Type vm:BattlePageVM}">
             <view:BattlePage/>
         </DataTemplate>
 
-        <core:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </Application.Resources>
     
 </Application>

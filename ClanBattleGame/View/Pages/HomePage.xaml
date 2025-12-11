@@ -128,7 +128,7 @@
                                 Grid.Column="1"
                                 VerticalAlignment="Bottom"
                                 Height="25"
-                                Content="До бою!" Command="{Binding GoFightCommand}"/>
+                                Content="До бою!" Command="{Binding GoBattleCommand}"/>
                 </Grid>
             </Grid>
 
@@ -168,6 +168,10 @@
                     <RowDefinition Height="10*"/>
                 </Grid.RowDefinitions>
 
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
                 <TextBlock Text="Склад армії" HorizontalAlignment="Center"/>
                 <TextBlock Grid.Row="1" Text="{Binding LeaderName}"/>
 
@@ -192,7 +196,17 @@
                     </ListBox>
                 </StackPanel>
 
-                
+                <!--<ScrollViewer  Grid.Row="2" Grid.Column="1"
+                               VerticalScrollBarVisibility="Auto"
+                               HorizontalScrollBarVisibility="Disabled"
+                               Margin="5">
+                    <TextBlock Text="{Binding ClanInfoLog}"
+                               TextWrapping="Wrap"
+                               FontFamily="Consolas"
+                               FontSize="12"/>
+                </ScrollViewer>-->
+
+
 
             </Grid>
         </Grid>

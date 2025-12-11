@@ -13,7 +13,6 @@ namespace ClanBattleGame.ViewModel
         private readonly int _rows;
         private readonly int _cols;
 
-        // Геометрія
         private const double CellWidth = 70;
         private const double CellHeight = 60.62;
 
@@ -53,10 +52,9 @@ namespace ClanBattleGame.ViewModel
             return Cells.First(c => c.Row == row && c.Col == col);
         }
 
-        // 🔹 ОЦЕ МИ ПОВЕРТАЄМО 🔹
         public void PlaceInitialUnits(Clan player, Clan enemy)
         {
-            // Гравець знизу
+            // Гравець
             int playerCol = 0;
 
             foreach (var squad in player.Squads)
@@ -77,7 +75,7 @@ namespace ClanBattleGame.ViewModel
                     break;
             }
 
-            // Ворог зверху
+            // Ворог
             int enemyCol = _cols - 1;
 
             foreach (var squad in enemy.Squads)

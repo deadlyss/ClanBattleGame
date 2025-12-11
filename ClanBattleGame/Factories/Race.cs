@@ -1,4 +1,4 @@
-﻿namespace ClanBattleGame.Model.Etc
+﻿namespace ClanBattleGame.Factories
 {
     public enum Race
     {

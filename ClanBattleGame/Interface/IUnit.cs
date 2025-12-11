@@ -5,11 +5,12 @@
         string Name { get; }
         string Type { get; }
         int Health { get; }
+        int CurrentHealth { get; }
         int Attack { get; }
 
-        int CurrentHealth { get; set; }
         int TotalAttack { get; }
         int TotalHealth { get; }
+        bool IsDead { get; }
 
         IUnit DeepCopy();
     }

@@ -25,7 +25,7 @@
                 <RowDefinition Height="10*"/>
             </Grid.RowDefinitions>
 
-            <control:HexField Grid.Row="1" DataContext="{Binding HexField}" />
+            <control:HexField Grid.Row="1" DataContext="{Binding Field}" />
 
             <StackPanel 
                 HorizontalAlignment="Left"
@@ -88,8 +88,7 @@
                             Height="35"
                             Content="Повернутися"
                             Margin="10 5"
-                            Command="{Binding ReturnCommand}"
-                            Visibility="{Binding IsBattleFinished, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            Command="{Binding ReturnCommand}"/>
 
 
                 <ScrollViewer Grid.Row="2"

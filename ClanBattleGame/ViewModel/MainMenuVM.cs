@@ -12,7 +12,7 @@ namespace ClanBattleGame.ViewModel
 
         public MainMenuVM(NavigationStore navStore)
         {
-            var state = GameStateService.Instance;
+            var state = GameState.Instance;
 
             NewGame = new RelayCommand(_ =>
             {

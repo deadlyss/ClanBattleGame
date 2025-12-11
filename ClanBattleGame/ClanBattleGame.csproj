@@ -58,24 +58,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\Etc\Race.cs" />
-    <Compile Include="Service\BattleOutcome.cs" />
-    <Compile Include="Service\BattleState.cs" />
+    <Compile Include="Factories\Race.cs" />
     <Compile Include="Service\ClanBuilder.cs" />
     <Compile Include="Core\ObservableObject.cs" />
     <Compile Include="Core\RelayCommand.cs" />
     <Compile Include="Factories\DwarfFactory.cs" />
     <Compile Include="Model\Etc\Squad.cs" />
     <Compile Include="Model\Units\Leader.cs" />
-    <Compile Include="Service\GameStateService.cs" />
+    <Compile Include="Service\ClanInfoPrinter.cs" />
+    <Compile Include="Service\GameState.cs" />
     <Compile Include="Service\HexHighlighter.cs" />
     <Compile Include="Service\HexNeighborService.cs" />
     <Compile Include="Service\NavigationService.cs" />
     <Compile Include="Service\NavigationStore.cs" />
-    <Compile Include="Service\ShopEconomic.cs" />
-    <Compile Include="Service\ShopService.cs" />
-    <Compile Include="Interface\IUpgradeStrategy.cs" />
-    <Compile Include="ViewModel\BattleVM.cs" />
+    <Compile Include="ViewModel\BattlePageVM.cs" />
     <Compile Include="ViewModel\HexCellVM.cs" />
     <Compile Include="ViewModel\HexFieldVM.cs" />
     <Compile Include="ViewModel\HomeVM.cs" />

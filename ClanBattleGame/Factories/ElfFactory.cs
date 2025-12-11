@@ -1,5 +1,4 @@
 ﻿using ClanBattleGame.Interface;
-using ClanBattleGame.Model.Etc;
 using ClanBattleGame.Model.Units;
 
 namespace ClanBattleGame.Factories
@@ -11,6 +10,6 @@ namespace ClanBattleGame.Factories
         private readonly ArcherUnit _rangedPrototype =
             new ArcherUnit("Elf Archer", 55, 22, "Longbow");
 
-        public IUnit CreateArcherUnit() => _rangedPrototype.Clone();
+        public IUnit CreateArcherUnit() => _rangedPrototype.DeepCopy();
     }
 }

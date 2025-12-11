@@ -13,18 +13,14 @@ namespace ClanBattleGame.Service
             _neighbor = neighbor;
         }
 
-        // -------------------------
         //   Reset → Default
-        // -------------------------
         public void ClearAll(ObservableCollection<HexCellVM> cells)
         {
             foreach (var c in cells)
                 c.State = CellState.Default;
         }
 
-        // -------------------------
         //  Підсвітка руху
-        // -------------------------
         public void HighlightNeighbors(ObservableCollection<HexCellVM> cells, HexCellVM center)
         {
             // Спочатку прибрати старе
@@ -44,9 +40,7 @@ namespace ClanBattleGame.Service
             }
         }
 
-        // -------------------------
         //   Підсвітка атаки
-        // -------------------------
         public void HighlightEnemies(
             ObservableCollection<HexCellVM> cells,
             HexCellVM center,
