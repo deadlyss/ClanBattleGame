@@ -58,6 +58,9 @@
     <Compile Include="Core\BoolToVisibilityConverter.cs" />
     <Compile Include="Core\DeepCopyExtensions.cs" />
     <Compile Include="Interface\IClanFormatter.cs" />
+    <Compile Include="MementoNew\BackupManager.cs" />
+    <Compile Include="MementoNew\IDataBackup.cs" />
+    <Compile Include="MementoNew\Snapshot.cs" />
     <Compile Include="Memento\BattleHistory.cs" />
     <Compile Include="Memento\BattleMemento.cs" />
     <Compile Include="Memento\ClanHistory.cs" />
@@ -192,6 +195,5 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
