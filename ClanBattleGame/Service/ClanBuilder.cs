@@ -21,8 +21,8 @@ namespace ClanBattleGame.Service
         {
             Clan clan = new Clan(clanName, leader, _factory.Race);
 
-            int squadCount = _rnd.Next(2, 4); // 2–3 загони
-            
+            //int squadCount = _rnd.Next(2, 4); // 2–3 загони
+            int squadCount = 2;
 
             for (int i = 0; i < squadCount; i++)
                 clan.Squads.Add(CreateSquad(i + 1));
@@ -36,17 +36,28 @@ namespace ClanBattleGame.Service
         {
             Squad squad = new Squad($"Загін {index}");
 
-            int unitCount = _rnd.Next(3, 8); // 3 - 7 юнітів
+            //int unitCount = _rnd.Next(3, 7); // 3–6 юнітів
+            //int unitCount = 5;
 
-            for (int i = 0; i < unitCount; i++)
-                squad.Units.Add(CreateUnit());
+            //for (int i = 0; i < unitCount; i++)
+            //    squad.Units.Add(CreateUnit());
+
+            squad.Units.Add(_factory.CreateHeavyUnit().DeepCopy());
+            squad.Units.Add(_factory.CreateHeavyUnit().DeepCopy());
+            squad.Units.Add(_factory.CreateHeavyUnit().DeepCopy());
+            squad.Units.Add(_factory.CreateArcherUnit().DeepCopy());
 
             return squad;
         }
 
         private IUnit CreateUnit()
         {
-            return _factory.CreateArcherUnit().DeepCopy();
+            int roll = _rnd.Next(0, 2); // 0 або 1
+
+            if (roll == 0)
+                return _factory.CreateHeavyUnit().DeepCopy();
+            else
+                return _factory.CreateArcherUnit().DeepCopy();
         }
     }
 }

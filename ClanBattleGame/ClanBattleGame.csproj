@@ -58,7 +58,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Combat\ArcherCombatStrategy.cs" />
+    <Compile Include="Combat\BattleLogEntry.cs" />
+    <Compile Include="Combat\HeavyCombatStrategy.cs" />
     <Compile Include="Factories\Race.cs" />
+    <Compile Include="Interface\ICombatStrategy.cs" />
+    <Compile Include="Model\Units\HeavyUnit.cs" />
     <Compile Include="Service\ClanBuilder.cs" />
     <Compile Include="Core\ObservableObject.cs" />
     <Compile Include="Core\RelayCommand.cs" />
@@ -132,7 +137,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Service\BattleEngine.cs" />
+    <Compile Include="Combat\BattleEngine.cs" />
     <Compile Include="Factories\ElfFactory.cs" />
     <Compile Include="Interface\IClanFactory.cs" />
     <Compile Include="Interface\IUnit.cs" />

@@ -1,5 +1,6 @@
 ﻿using ClanBattleGame.Core;
 using ClanBattleGame.Model;
+using ClanBattleGame.Model.Etc;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -76,14 +77,14 @@ namespace ClanBattleGame.ViewModel
             }
 
             // Ворог
-            int enemyCol = _cols - 1;
+            int enemyCol = 1;//_cols - 1;
 
             foreach (var squad in enemy.Squads)
             {
                 if (squad.Units.Count == 0)
                     continue;
 
-                int row = 0;
+                int row = 5;
                 int col = enemyCol;
 
                 if (col >= 0)
@@ -95,6 +96,10 @@ namespace ClanBattleGame.ViewModel
                 else
                     break;
             }
+        }
+        public HexCellVM GetCellOfSquad(Squad squad)
+        {
+            return Cells.FirstOrDefault(c => c.Occupant == squad);
         }
     }
 }

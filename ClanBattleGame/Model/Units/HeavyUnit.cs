@@ -4,10 +4,10 @@ using System;
 
 namespace ClanBattleGame.Model.Units
 {
-    public class ArcherUnit : ObservableObject, IUnit
+    public class HeavyUnit : ObservableObject, IUnit
     {
         public string Name { get; private set; }
-        public string Type => "Archer";
+        public string Type => "Heavy";
         public int Attack { get; private set; }
         public int Health { get; private set; }
         public string Weapon { get; private set; }
@@ -52,7 +52,7 @@ namespace ClanBattleGame.Model.Units
         public int TotalHealth => Health + BonusHealth;
         public int TotalAttack => Attack + BonusAttack;
 
-        public ArcherUnit(string name, int health, int attack, string weapon)
+        public HeavyUnit(string name, int health, int attack, string weapon)
         {
             Name = name;
             Health = health;
@@ -63,19 +63,19 @@ namespace ClanBattleGame.Model.Units
             CurrentHealth = TotalHealth;
         }
 
-        public ArcherUnit() // дефолт конструктор
+        public HeavyUnit() // дефолт конструктор
         {
-            Name = "Archer";
+            Name = "Heavy";
             Health = 30;
             Attack = 15;
-            Weapon = "Bow";
+            Weapon = "Hammer";
             BonusAttack = 0;
             BonusHealth = 0;
         }
 
-        public IUnit DeepCopy() //клонування
+        public IUnit DeepCopy()
         {
-            var clone = new ArcherUnit
+            var clone = new HeavyUnit
             {
                 Name = String.Copy(this.Name),
                 Health = this.Health,
@@ -87,6 +87,7 @@ namespace ClanBattleGame.Model.Units
                 CurrentHealth = this.CurrentHealth
             };
             return clone;
+
         }
     }
 }

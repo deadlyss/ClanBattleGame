@@ -7,5 +7,6 @@ namespace ClanBattleGame.Interface
         Race Race { get; }
 
         IUnit CreateArcherUnit();
+        IUnit CreateHeavyUnit();
     }
 }

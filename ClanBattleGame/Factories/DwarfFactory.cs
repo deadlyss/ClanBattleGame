@@ -8,8 +8,12 @@ namespace ClanBattleGame.Factories
         public Race Race => Race.Dwarf;
 
         private readonly ArcherUnit _rangedPrototype =
-            new ArcherUnit("Dwarf Crossbowman", 50, 18, "Crossbow");
+            new ArcherUnit("Dwarf Crossbowman", 30, 25, "Crossbow");
+
+        private readonly HeavyUnit _heavyPrototype =
+            new HeavyUnit("Dwarf Heavy", 75, 15, "Hammer");
 
         public IUnit CreateArcherUnit() => _rangedPrototype.DeepCopy();
+        public IUnit CreateHeavyUnit() => _heavyPrototype.DeepCopy();
     }
 }
